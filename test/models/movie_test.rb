@@ -6,6 +6,7 @@
 #  actress_id :integer
 #  title      :string(255)
 #  year       :integer
+#  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
