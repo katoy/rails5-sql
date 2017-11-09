@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 20171103011125) do
 
   create_table "actresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -22,6 +23,7 @@ ActiveRecord::Schema.define(version: 20171103011125) do
     t.bigint "actress_id"
     t.string "title"
     t.integer "year"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["actress_id"], name: "index_movies_on_actress_id"
@@ -30,6 +32,7 @@ ActiveRecord::Schema.define(version: 20171103011125) do
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "movie_id"
     t.string "key"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["movie_id"], name: "index_tags_on_movie_id"

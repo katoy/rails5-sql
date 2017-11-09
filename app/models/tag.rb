@@ -10,5 +10,7 @@
 #
 
 class Tag < ApplicationRecord
+  acts_as_paranoid
+
   belongs_to :movie, optional: true
 end

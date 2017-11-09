@@ -11,6 +11,8 @@
 #
 
 class Movie < ApplicationRecord
+  acts_as_paranoid
+
   has_many :tags
   belongs_to :actress
 end

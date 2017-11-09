@@ -15,6 +15,8 @@ See
 - https://qiita.com/yuyasat/items/c2ad37b5a24a58ee3d30
   Rails における内部結合、外部結合まとめ
 
+- http://www.task-notes.com/entry/20170813/1502618254
+  論理削除を実装するGemのparanoiaについて
 
 ```
   $ rails db:create
@@ -217,4 +219,54 @@ left_join
     | 8  | 5          | 真夏の方程式        | 2013 | 2017-11-03 22:26:19 +0900 | 2017-11-03 22:26:19 +0900 | 7        | ミステリー |
     | 9  | 5          | 真夏の方程式        | 2013 | 2017-11-03 22:26:19 +0900 | 2017-11-03 22:26:19 +0900 | 7        | 夏         |
     +----+------------+---------------------+------+---------------------------+---------------------------+----------+------------+
+```
+
+倫理削除
+
+where では、 SQL に "deleta_at IS NULL" が追加されています。
+```
+    > Tag.where(key: '時代劇')
+    Tag Load (0.7ms)  SELECT  `tags`.* FROM `tags` WHERE `tags`.`deleted_at` IS NULL AND `tags`.`key` = '時代劇' LIMIT 11
+    => #<ActiveRecord::Relation [#<Tag id: 1, movie_id: 2, key: "時代劇", deleted_at: nil, created_at: "2017-11-09 12:26:54", updated_at: "2017-11-09 12:26:54">]>
+```
+
+destroy では、deleted_at が設定されます。
+```
+    > tag = Tag.where(key: '時代劇').first
+    Tag Load (0.7ms)  SELECT  `tags`.* FROM `tags` WHERE `tags`.`deleted_at` IS NULL AND `tags`.`key` = '時代劇' ORDER BY `tags`.`id` ASC LIMIT 1
+    => #<Tag id: 1, movie_id: 2, key: "時代劇", deleted_at: nil, created_at: "2017-11-09 12:26:54", updated_at: "2017-11-09 12:26:54">
+
+    > tag.destroy
+    (0.2ms)  BEGIN
+    SQL (0.5ms)  UPDATE `tags` SET `tags`.`deleted_at` = '2017-11-09 12:38:14', `tags`.`updated_at` = '2017-11-09 12:38:14' WHERE `tags`.`id` = 1
+    (0.6ms)  COMMIT
+    => #<Tag id: 1, movie_id: 2, key: "時代劇", deleted_at: "2017-11-09 12:38:14", created_at: "2017-11-09 12:26:54", updated_at: "2017-11-09 12:38:14">
+```
+
+連理削除されたものは、検索ではヒットしません。
+```
+    > tag = Tag.where(key: '時代劇')
+    Tag Load (0.5ms)  SELECT  `tags`.* FROM `tags` WHERE `tags`.`deleted_at` IS NULL AND `tags`.`key` = '時代劇' LIMIT 11
+    => #<ActiveRecord::Relation []>
+```
+
+with_deleted を指定すれば、論理削除したものでも検索できます。
+```
+    > Tag.with_deleted.where(key: '時代劇')
+    Tag Load (0.4ms)  SELECT  `tags`.* FROM `tags` WHERE `tags`.`key` = '時代劇' LIMIT 11
+    => #<ActiveRecord::Relation [#<Tag id: 1, movie_id: 2, key: "時代劇", deleted_at: "2017-11-09 12:38:14", created_at: "2017-11-09 12:26:54", updated_at: "2017-11-09 12:38:14">]>
+```
+
+restore で論理削除状態を元に戻せます。(where でヒットするように戻せます)
+```
+    > Tag.with_deleted.where(key: '時代劇').first.restore
+    Tag Load (0.5ms)  SELECT  `tags`.* FROM `tags` WHERE `tags`.`key` = '時代劇' ORDER BY `tags`.`id` ASC LIMIT 1
+    (0.2ms)  BEGIN
+    SQL (0.5ms)  UPDATE `tags` SET `tags`.`deleted_at` = NULL, `tags`.`updated_at` = '2017-11-09 12:48:37' WHERE `tags`.`id` = 1
+    (23.0ms)  COMMIT
+    => #<Tag id: 1, movie_id: 2, key: "時代劇", deleted_at: nil, created_at: "2017-11-09 12:26:54", updated_at: "2017-11-09 12:48:37">
+
+    > Tag.where(key: '時代劇').first
+      Tag Load (0.5ms)  SELECT  `tags`.* FROM `tags` WHERE `tags`.`deleted_at` IS NULL AND `tags`.`key` = '時代劇' ORDER BY `tags`.`id` ASC LIMIT 1
+    => #<Tag id: 1, movie_id: 2, key: "時代劇", deleted_at: nil, created_at: "2017-11-09 12:26:54", updated_at: "2017-11-09 12:48:37">
 ```

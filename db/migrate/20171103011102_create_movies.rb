@@ -4,6 +4,7 @@ class CreateMovies < ActiveRecord::Migration[5.1]
       t.references :actress
       t.string :title
       t.integer :year
+      t.datetime :deleted_at
 
       t.timestamps
     end
