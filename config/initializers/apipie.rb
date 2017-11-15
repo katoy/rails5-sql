@@ -7,4 +7,5 @@ Apipie.configure do |config|
 
   config.default_locale = nil
   config.namespaced_resources = true
+  config.show_all_examples = 1
 end

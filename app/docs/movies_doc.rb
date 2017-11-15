@@ -7,12 +7,12 @@ module MoviesDoc
   # Nothing here, it's just a stub
  end
 
- api :GET, '/moviess/:id', 'Show movie'
+ api :GET, '/movies/:id', 'Show movie'
  def show
   # Nothing here, it's just a stub
  end
 
- api :POST, '/moviess', 'Create movie'
+ api :POST, '/movies', 'Create movie'
  def create
   # Nothing here, it's just a stub
  end

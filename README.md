@@ -27,6 +27,12 @@ See
   $ rails db:speeds
   $ bundle exec erd
   $ bundle exec annotate
+
+  $ APIPIE_RECORD=params bundle exec rake test
+  $ APIPIE_RECORD=examples bundle exec rake test
+  $ bundle exec rake apipie:static
+  $ rails s
+  #   access http://localhost:3000/apipie
 ```
 
 ```
