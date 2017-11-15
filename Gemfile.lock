@@ -41,6 +41,8 @@ GEM
     annotate (2.7.2)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
+    apipie-rails (0.5.5)
+      rails (>= 4.1)
     arel (8.0.0)
     awesome_print (1.8.0)
     better_errors (2.4.0)
@@ -186,6 +188,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  apipie-rails
   awesome_print
   better_errors
   binding_of_caller

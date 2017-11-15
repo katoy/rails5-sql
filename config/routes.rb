@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  apipie
   resources :tags
   resources :movies
   resources :actresses

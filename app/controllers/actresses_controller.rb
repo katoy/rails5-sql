@@ -1,4 +1,6 @@
 class ActressesController < ApplicationController
+  include ActressesDoc
+
   before_action :set_actress, only: [:show, :update, :destroy]
 
   # GET /actresses

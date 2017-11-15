@@ -1,4 +1,6 @@
 class MoviesController < ApplicationController
+  include MoviesDoc
+
   before_action :set_movie, only: [:show, :update, :destroy]
 
   # GET /movies
