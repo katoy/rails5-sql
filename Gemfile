@@ -41,7 +41,7 @@ group :development, :test do
   gem 'bullet'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'rspec-rails'
+  # gem 'rspec-rails'
   gem 'pry-byebug'
   gem 'awesome_print'
 end

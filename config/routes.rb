@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :memos
   apipie
   resources :tags
   resources :movies

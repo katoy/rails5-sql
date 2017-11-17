@@ -19,7 +19,7 @@ See
   論理削除を実装するGemのparanoiaについて
 
 - https://techracho.bpsinc.jp/hachi8833/2016_09_15/25967
-  はDELETE_FLAG を付ける前に確認したいこと
+  DELETE_FLAG を付ける前に確認したいこと
 
 ```
   $ rails db:create
